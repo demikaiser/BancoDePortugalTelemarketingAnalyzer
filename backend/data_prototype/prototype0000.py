@@ -1,14 +1,21 @@
 import numpy as np
 import pandas as pd
 
+import sqlite3 as sq
 
 
-df = pd.read_csv('./backend/dataset/bank-additional-full.csv', delimiter=';')
+data = pd.read_csv('./backend/dataset/bank-additional-full.csv', delimiter=';')
 
 
-print(df.info())
 
-
+sql_data = './bank.sqlite' #- Creates DB names SQLite
+conn = sq.connect(sql_data)
+cur = conn.cursor()
+cur.execute('''DROP TABLE IF EXISTS bank''')
+data.to_sql('bank', conn, if_exists='replace', index=True) # - writes the pd.df to SQLIte DB
+pd.read_sql('select * from bank', conn)
+conn.commit()
+conn.close()
 
 
 
