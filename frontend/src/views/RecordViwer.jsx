@@ -21,6 +21,14 @@ function RecordViewer(props) {
       maxHeight: 520,
       overflow: 'auto',
     },
+    tableRow: {
+      backgroundColor: 'rgba(255, 0, 0, 0.25)',    
+    },
+    tableCell: {
+      fontSize: '10pt'
+    },
+    nothing: {
+    }
   });
 
   const columns = [
@@ -32,8 +40,8 @@ function RecordViewer(props) {
     { id: 'day_of_week', label: 'day_of_week', minWidth: 50},
     { id: 'default', label: 'default', minWidth: 30},
     { id: 'duration', label: 'duration', minWidth: 30, align: 'right'},
-    { id: 'education', label: 'education', minWidth: 50},
-    { id: 'emp_var_rate', label: 'emp_var_rate', minWidth: 50, align: 'right'},
+    { id: 'education', label: 'education', minWidth: 30},
+    { id: 'emp_var_rate', label: 'emp_var_rate', minWidth: 30, align: 'right'},
     { id: 'euribor3m', label: 'euribor3m', minWidth: 50, align: 'right'},
     { id: 'housing', label: 'housing', minWidth: 30},
     { id: 'index', label: 'index', minWidth: 30, align: 'right'},
@@ -52,7 +60,7 @@ function RecordViewer(props) {
 
   const [page, setPage] = React.useState(0);
 
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(8);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -69,8 +77,8 @@ function RecordViewer(props) {
         <Row>
           <Col md={12}>
             <Card
-              title="Striped Table with Hover"
-              category="Here is a subtitle for this table"
+              title="Filtered Records from Banco de Portugal Telemarketing"
+              category="Select different conditions to see other search results"
               ctTableResponsive
               content={
                 <Paper className={classes.root}>
@@ -80,6 +88,7 @@ function RecordViewer(props) {
                       <TableRow>
                         {columns.map(column => (
                           <TableCell
+                            className={classes.tableCell}
                             key={column.id}
                             align={column.align}
                             style={{ minWidth: column.minWidth }}
@@ -92,11 +101,14 @@ function RecordViewer(props) {
                     <TableBody>
                       {props.filteredRecords.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                         return (
-                          <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                          <TableRow className={row.y === "yes" ? classes.tableRow : classes.nothing} hover role="checkbox" tabIndex={-1} key={row.code}>
                             {columns.map(column => {
                               const value = row[column.id];
                               return (
-                                <TableCell key={column.id} align={column.align}>
+                                <TableCell 
+                                  className={classes.tableCell}
+                                  key={column.id} 
+                                  align={column.align}>
                                   {column.format && typeof value === 'number' ? column.format(value) : value}
                                 </TableCell>
                               );
@@ -108,7 +120,7 @@ function RecordViewer(props) {
                   </Table>
                 </div>
                 <TablePagination
-                  rowsPerPageOptions={[10, 25, 50, 100, 250]}
+                  rowsPerPageOptions={[8, 16, 32, 64, 128]}
                   component="div"
                   count={props.filteredRecords.length}
                   rowsPerPage={rowsPerPage}

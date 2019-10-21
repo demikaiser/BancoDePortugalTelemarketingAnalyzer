@@ -27,6 +27,7 @@ class Footer extends Component {
             &copy; {new Date().getFullYear()}{" "}
             <a href="http://www.jakejonghunchoi.com">Jake J. Choi</a> powered by 
             <a href="https://reactjs.org/"> React</a>, 
+            <a href="https://material-ui.com/"> Material UI</a>, 
             <a href="http://www.creative-tim.com?ref=lbr-footer"> Creative Tim</a>, 
             <a href="http://flask.palletsprojects.com/en/1.1.x/"> Flask</a>, 
             <a href="https://pandas.pydata.org/"> Pandas</a>, 

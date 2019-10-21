@@ -10,10 +10,10 @@ export const fetchFilteredRecordsRequest = () => {
   }
 }
 
-export const fetchFilteredRecordsSuccess = (records) => {
+export const fetchFilteredRecordsSuccess = (data) => {
   return {
     type: FETCH_FILTERED_RECORDS_SUCCESS,
-    payload: records
+    payload: data
   }
 }
 

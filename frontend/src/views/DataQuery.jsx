@@ -25,7 +25,7 @@ class DataQuery extends Component {
     store.dispatch(fetchFilteredRecordsRequest());
     axios.post('http://localhost:5000/records', JSON.stringify(this.state))
       .then(response => {
-        store.dispatch(fetchFilteredRecordsSuccess(response.data.records));
+        store.dispatch(fetchFilteredRecordsSuccess(response.data));
       })
       .catch(error => {
         store.dispatch(fetchFilteredRecordsFailure(error.message));
@@ -211,7 +211,7 @@ class DataQuery extends Component {
                     <Row>
                       <Col md={12}>
                         <FormGroup controlId="">
-                          <ControlLabel>Age</ControlLabel>
+                          <ControlLabel><i className="pe-7s-user text-info" />&nbsp;&nbsp;Age</ControlLabel>
                           <Slider
                             id="age"
                             min={17}
@@ -441,7 +441,7 @@ class DataQuery extends Component {
                     <Row>
                       <Col md={12}>
                         <FormGroup controlId="">
-                          <ControlLabel><i className="pe-7s-refresh-2 text-info" />&nbsp;&nbsp;Duration</ControlLabel>
+                          <ControlLabel><i className="pe-7s-hourglass text-info" />&nbsp;&nbsp;Duration</ControlLabel>
                           <Slider
                             id="duration"
                             min={0}

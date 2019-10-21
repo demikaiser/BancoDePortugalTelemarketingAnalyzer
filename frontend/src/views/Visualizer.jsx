@@ -1,41 +1,46 @@
-/*!
-
-=========================================================
-* Light Bootstrap Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { Component } from "react";
+import axios from 'axios';
 import ChartistGraph from "react-chartist";
-import { Grid, Row, Col } from "react-bootstrap";
-
+import { Grid, Row, Col, Table } from "react-bootstrap";
 import { Card } from "components/Card/Card.jsx";
-import { StatsCard } from "components/StatsCard/StatsCard.jsx";
-import { Tasks } from "components/Tasks/Tasks.jsx";
-import {
-  dataPie,
-  legendPie,
-  dataSales,
-  optionsSales,
-  responsiveSales,
-  legendSales,
-  dataBar,
-  optionsBar,
-  responsiveBar,
-  legendBar
-} from "variables/Variables.jsx";
+
+var optionsBar = {
+  seriesBarDistance: 10,
+  axisX: {
+    showGrid: true
+  },
+  height: "275px"
+};
+
+var responsiveBar = [
+  [
+    "screen and (max-width: 640px)",
+    {
+      seriesBarDistance: 5,
+      axisX: {
+        labelInterpolationFnc: function(value) {
+          return value[0];
+        }
+      }
+    }
+  ]
+];
+
+var legendBar = {
+  names: ["Yes to Marketing", "No to Marketing"],
+  types: ["info", "danger"]
+};
 
 class Visualizer extends Component {
+
+  componentWillMount() {
+    this.setState({ statistics: null })
+    axios.get('http://localhost:5000/statistics')
+      .then(response => {
+        this.setState({ statistics: response.data.statistics})
+      })
+  }
+
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {
@@ -46,136 +51,212 @@ class Visualizer extends Component {
     }
     return legend;
   }
+
   render() {
-    return (
-      <div className="content">
-        <Grid fluid>
-          <Row>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-server text-warning" />}
-                statsText="Capacity"
-                statsValue="105GB"
-                statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-wallet text-success" />}
-                statsText="Revenue"
-                statsValue="$1,345"
-                statsIcon={<i className="fa fa-calendar-o" />}
-                statsIconText="Last day"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-graph1 text-danger" />}
-                statsText="Errors"
-                statsValue="23"
-                statsIcon={<i className="fa fa-clock-o" />}
-                statsIconText="In the last hour"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="fa fa-twitter text-info" />}
-                statsText="Followers"
-                statsValue="+45"
-                statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col md={8}>
-              <Card
-                statsIcon="fa fa-history"
-                id="chartHours"
-                title="Users Behavior"
-                category="24 Hours performance"
-                stats="Updated 3 minutes ago"
-                content={
-                  <div className="ct-chart">
-                    <ChartistGraph
-                      data={dataSales}
-                      type="Line"
-                      options={optionsSales}
-                      responsiveOptions={responsiveSales}
-                    />
-                  </div>
+    if (this.state.statistics) {
+      return (
+        <div className="content">
+          <Grid fluid>
+            { 
+              Object.keys(this.state.statistics).map((item, key) => {
+                if (this.state.statistics[item].type === "numerical") {
+                  return (
+                    <Row key={item}>
+                      <Col md={8}>
+                        <Card
+                          id={item + "Distribution"}
+                          title={item + " distribution"}
+                          category={this.state.statistics[item].type}
+                          stats={this.state.statistics[item].explanation}
+                          statsIcon="pe-7s-tools text-success"
+                          content={
+                            <div className="ct-chart">
+                              <ChartistGraph
+                                data={this.state.statistics[item].graph}
+                                type="Bar"
+                                options={optionsBar}
+                                responsiveOptions={responsiveBar}
+                              />
+                            </div>
+                          }
+                          legend={
+                            <div className="legend">{this.createLegend(legendBar)}</div>
+                          }
+                        />
+                      </Col>
+                      <Col md={4}>
+                        <Card
+                          id={item + "DataSheet"}
+                          content={
+                            <Table hover striped bordered size="sm">
+                              <thead>
+                                <tr>
+                                  {
+                                    [item, "All", "Yes", "No"].map((prop, key) => {
+                                      return (
+                                      <th key={key}>{prop}</th>
+                                      );
+                                    })
+                                  }
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {
+                                  [
+                                    [
+                                      "count:", this.state.statistics[item]["description"]["count"], 
+                                      this.state.statistics[item]["description_for_yes"]["count"], 
+                                      this.state.statistics[item]["description_for_no"]["count"], 
+                                    ],
+                                    [
+                                      "min:", this.state.statistics[item]["description"]["min"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_yes"]["min"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_no"]["min"].toFixed(3), 
+                                    ],
+                                    [
+                                      "max:", this.state.statistics[item]["description"]["max"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_yes"]["max"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_no"]["max"].toFixed(3), 
+                                    ],
+                                    [
+                                      "mean:", this.state.statistics[item]["description"]["mean"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_yes"]["mean"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_no"]["mean"].toFixed(3), 
+                                    ],
+                                    [
+                                      "std:", this.state.statistics[item]["description"]["std"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_yes"]["std"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_no"]["std"].toFixed(3), 
+                                    ],
+                                    [
+                                      "25%:", this.state.statistics[item]["description"]["25%"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_yes"]["25%"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_no"]["25%"].toFixed(3), 
+                                    ],
+                                    [
+                                      "50%:", this.state.statistics[item]["description"]["50%"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_yes"]["50%"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_no"]["50%"].toFixed(3), 
+                                    ],
+                                    [
+                                      "75%:", this.state.statistics[item]["description"]["75%"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_yes"]["75%"].toFixed(3), 
+                                      this.state.statistics[item]["description_for_no"]["75%"].toFixed(3), 
+                                    ],
+                                  ].map((prop, key) => {
+                                    return (
+                                      <tr key={key}>{
+                                        prop.map((prop, key)=> {
+                                          return (
+                                              <td  key={key}>{prop}</td>
+                                          );
+                                        })
+                                      }</tr>
+                                    )
+                                  })
+                                }
+                              </tbody>
+                            </Table>
+                          }
+                        />
+                      </Col>
+                    </Row>
+                  ) 
+                } else if (this.state.statistics[item].type  === "categorical") {
+                  return (
+                    <Row key={item}>
+                      <Col md={4}>
+                        <Card
+                          id={item + "PieChart"}
+                          title={item + " ratio"}
+                          category={this.state.statistics[item].type}
+                          statsIcon="fa fa-clock-o"
+                          stats={this.state.statistics[item]["description"]["top"] + " has the highest frequencies of all."}
+                          content={
+                            <div
+                              id="chartPreferences"
+                              className="ct-chart ct-perfect-fourth"
+                            >
+                              <ChartistGraph 
+                                data={{
+                                  labels: [
+                                    "All " + this.state.statistics[item]["description"]["top"],
+                                    "All Others",
+                                    "Yes " + this.state.statistics[item]["description_for_yes"]["top"],
+                                    "Yes Others",
+                                    "No " + this.state.statistics[item]["description_for_no"]["top"],
+                                    "No Others",
+                                  ],
+                                  series: [
+                                    this.state.statistics[item]["description"]["freq"],
+                                    this.state.statistics[item]["description"]["count"] 
+                                      - this.state.statistics[item]["description"]["freq"],
+                                    this.state.statistics[item]["description_for_yes"]["freq"],
+                                    this.state.statistics[item]["description_for_yes"]["count"] 
+                                      - this.state.statistics[item]["description_for_yes"]["freq"],
+                                    this.state.statistics[item]["description_for_no"]["freq"],
+                                    this.state.statistics[item]["description_for_no"]["count"] 
+                                      - this.state.statistics[item]["description_for_no"]["freq"],
+                                  ]
+                                }} 
+                                type="Pie" 
+                              />
+                            </div>
+                          }
+                          legend={
+                            <div className="legend">{this.createLegend({
+                                names: [
+                                  "All",
+                                  "Others",
+                                  "Yes",
+                                  "Yes Others",
+                                  "No",
+                                  "No Others",
+                                ],
+                                types: ["info", "danger", "warning", "secondary", "success", "primary"]
+                            })}</div>
+                          }
+                        />
+                      </Col>
+                      <Col md={8}>
+                        <Card
+                          id={item + "Distribution"}
+                          title={item + " distribution"}
+                          category={this.state.statistics[item].type}
+                          stats={this.state.statistics[item].explanation}
+                          statsIcon="pe-7s-tools text-success"
+                          content={
+                            <div className="ct-chart">
+                              <ChartistGraph
+                                data={this.state.statistics[item].graph}
+                                type="Bar"
+                                options={optionsBar}
+                                responsiveOptions={responsiveBar}
+                              />
+                            </div>
+                          }
+                          legend={
+                            <div className="legend">{this.createLegend(legendBar)}</div>
+                          }
+                        />
+                      </Col>
+                    </Row>
+                  ) 
                 }
-                legend={
-                  <div className="legend">{this.createLegend(legendSales)}</div>
-                }
-              />
-            </Col>
-            <Col md={4}>
-              <Card
-                statsIcon="fa fa-clock-o"
-                title="Email Statistics"
-                category="Last Campaign Performance"
-                stats="Campaign sent 2 days ago"
-                content={
-                  <div
-                    id="chartPreferences"
-                    className="ct-chart ct-perfect-fourth"
-                  >
-                    <ChartistGraph data={dataPie} type="Pie" />
-                  </div>
-                }
-                legend={
-                  <div className="legend">{this.createLegend(legendPie)}</div>
-                }
-              />
-            </Col>
-          </Row>
-
-          <Row>
-            <Col md={6}>
-              <Card
-                id="chartActivity"
-                title="2014 Sales"
-                category="All products including Taxes"
-                stats="Data information certified"
-                statsIcon="fa fa-check"
-                content={
-                  <div className="ct-chart">
-                    <ChartistGraph
-                      data={dataBar}
-                      type="Bar"
-                      options={optionsBar}
-                      responsiveOptions={responsiveBar}
-                    />
-                  </div>
-                }
-                legend={
-                  <div className="legend">{this.createLegend(legendBar)}</div>
-                }
-              />
-            </Col>
-
-            <Col md={6}>
-              <Card
-                title="Tasks"
-                category="Backend development"
-                stats="Updated 3 minutes ago"
-                statsIcon="fa fa-history"
-                content={
-                  <div className="table-full-width">
-                    <table className="table">
-                      <Tasks />
-                    </table>
-                  </div>
-                }
-              />
-            </Col>
-          </Row>
-        </Grid>
-      </div>
-    );
+              }) 
+            }
+          </Grid>
+        </div>
+      );
+    } else {
+      return (
+        <div className="content">
+          Loading Data
+        </div>
+      )
+    }
   }
 }
 
 export default Visualizer;
+

@@ -7,7 +7,7 @@ import {
 const initialState = {
   filteredRecordsLoading: false,
   filteredRecordsError: '',
-  filteredRecords: []
+  filteredRecords: [],
 }
 
 const reducer = (state = initialState, action) => {
@@ -18,10 +18,11 @@ const reducer = (state = initialState, action) => {
         filteredRecordsLoading: true
       };
     case FETCH_FILTERED_RECORDS_SUCCESS: 
+      console.log(action.payload)
       return {
         ...state, 
         filteredRecordsLoading: false,
-        filteredRecords: action.payload,
+        filteredRecords: action.payload.records,
         filteredRecordsError: ''
       };
     case FETCH_FILTERED_RECORDS_FAILURE: 
