@@ -46,7 +46,7 @@ closing....here...
 
 ### Visualizer
 
-- Something 1
+- 
 
 - Something 2
 

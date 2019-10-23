@@ -251,7 +251,15 @@ class Visualizer extends Component {
     } else {
       return (
         <div className="content">
-          Loading Data
+          <Card
+            content={
+              <div className="text-center">
+                <h2>
+                  <i className="pe-7s-cloud-download" /> Loading the Data 
+                </h2>
+              </div>
+            }
+          />
         </div>
       )
     }

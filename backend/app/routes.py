@@ -49,3 +49,28 @@ class Records(Resource):
 
         return jsonify(result)
 
+
+@app.route('/models/logistic-regression', methods=['GET'])
+def route_model_logistic_regression():
+    return jsonify({'model': 'logistic regression'})
+
+
+@app.route('/models/support-vector-machine', methods=['GET'])
+def route_model_support_vector_machine():
+    return jsonify({'model': 'svm'})
+
+
+@app.route('/models/nearest-neighbors', methods=['GET'])
+def route_model_nearest_neighbors():
+    return jsonify({'model': 'nearest neighbors'})
+
+
+@app.route('/models/decision-trees', methods=['GET'])
+def route_model_decision_trees():
+    return jsonify({'model': 'decision trees'})
+
+
+@app.route('/models/neural-network', methods=['GET'])
+def route_model_neural_network():
+    return jsonify({'model': 'neural network'})
+
