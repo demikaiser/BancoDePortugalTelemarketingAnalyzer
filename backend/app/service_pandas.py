@@ -229,7 +229,7 @@ def get_statistics(records: List[Record]):
 
 
 def get_graphs(result, df_all, df_yes, df_no):
-    """Calculates datapoints for drawing graphs.
+    """Calculates data points for drawing graphs.
 
     All categorical variables will have the graph points as the same numbers 
     with the number of unique values. All numerical variables will have graph
@@ -272,7 +272,6 @@ def get_graphs(result, df_all, df_yes, df_no):
                     ],
                 }
 
-
         elif result[column]["type"] == "categorical":
 
             df_labels = []
@@ -291,8 +290,6 @@ def get_graphs(result, df_all, df_yes, df_no):
                     df_no_counts,
                 ],
             }
- 
-
 
     return result
 
