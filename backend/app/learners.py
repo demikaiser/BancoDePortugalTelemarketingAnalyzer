@@ -20,12 +20,13 @@ import sklearn.neural_network
 
 def load_data():
     """Returns a loaded data set with a special delimiter."""
-    data = pd.read_csv("../dataset/bank.csv", delimiter=";")
-    print(data.info())
+    # data = pd.read_csv("../dataset/bank.csv", delimiter=";")  # Testing path.
+    data = pd.read_csv("./dataset/bank.csv", delimiter=";")
+    print(data.info())  # Debug.
     return data
 
 
-def shuffle_data(data, train_ratio):
+def shuffle_data(data, train_ratio: float):
     """Returns training set and test set from the given training ratio."""
     num_rows = data.shape[0]
     shuffled_indices = list(range(num_rows))
@@ -58,9 +59,10 @@ def shuffle_data(data, train_ratio):
     return train_features, train_labels, test_features, test_labels
 
 
-def get_trained_model(model_name, model_type, train_features, train_labels):
+def get_trained_model(model_name: str, model_type, train_features, train_labels):
     """Returns a trained model from the disk, and makes one if doesn't exist."""
-    model_path = "./ml_models/model_" + model_name
+    # model_path = "./ml_models/model_" + model_name  # Testing path.
+    model_path = "./app/ml_models/model_" + model_name
 
     if os.path.isfile(model_path):
         model = load(model_path)
@@ -72,74 +74,83 @@ def get_trained_model(model_name, model_type, train_features, train_labels):
         return model
 
 
-def get_model(model_name, train_features, train_labels):
+def get_model(model_name: str, train_features, train_labels):
     """Returns a trained model by the given name."""
-
     if model_name == "LogisticRegression":
         return get_trained_model(
             model_name, sklearn.linear_model.LogisticRegression(),  # F1: 48.268625
-            train_features, train_labels
-        )
+            train_features, train_labels)
     elif model_name == "SupportVectorClassifier":
         return get_trained_model(
             model_name, sklearn.svm.SVC(),  # F1: 35.879630
-            train_features, train_labels
-        )
+            train_features, train_labels)
     elif model_name == "KNeighborsClassifier":
         return get_trained_model(
             model_name, sklearn.neighbors.KNeighborsClassifier(),  # F1: 52.851182
-            train_features, train_labels
-        )
+            train_features, train_labels)
     elif model_name == "DecisionTreeClassifier":
         return get_trained_model(
             model_name, sklearn.tree.DecisionTreeClassifier(),  # F1: 50.585284
-            train_features, train_labels
-        )
+            train_features, train_labels)
     elif model_name == "RandomForestClassifier":
         return get_trained_model(
             model_name, sklearn.ensemble.RandomForestClassifier(),  # F1: 49.326425
-            train_features, train_labels
-        )
+            train_features, train_labels)
     elif model_name == "AdaBoostClassifier":
         return get_trained_model(
             model_name, sklearn.ensemble.AdaBoostClassifier(),  # F1: 48.834746
-            train_features, train_labels
-        )
+            train_features, train_labels)
     elif model_name == "MLPClassifier":
         return get_trained_model(
             model_name, sklearn.neural_network.MLPClassifier(),  # F1: Unstable
-            train_features, train_labels
-        )
+            train_features, train_labels)
 
 
-def evaluation(model, test_features, test_labels):
+def evaluation(model_name: str, model, test_features, test_labels):
     """Returns the results from evaluation in a JSON format."""
     pred = model.predict(test_features)
 
     tn, fp, fn, tp = sklearn.metrics.confusion_matrix(test_labels, pred).ravel()
     print("TN:", tn, "FP: ", fp, "FN: ", fn, "TP: ", tp)
 
-    f1 = sklearn.metrics.f1_score(test_labels, pred, pos_label='yes')
-    print("F1 Performance Score: %.6f%%" % (f1 * 100))
+    f1_score = sklearn.metrics.f1_score(test_labels, pred, pos_label='yes')
+    print("F1 Performance Score: %.6f%%" % (f1_score * 100))
 
-    accuracy = sklearn.metrics.accuracy_score(test_labels, pred)
-    print("Accuracy Performance Score: %.6f%%" % (accuracy * 100))
+    accuracy_score = sklearn.metrics.accuracy_score(test_labels, pred)
+    print("Accuracy Performance Score: %.6f%%" % (accuracy_score * 100))
+
+    hamming_loss = sklearn.metrics.hamming_loss(test_labels, pred)
+    print("Hamming Loss: %.6f%%" % (hamming_loss * 100))
+
+    matthews_corrcoef = sklearn.metrics.matthews_corrcoef(test_labels, pred)
+    print("Matthews Corr Coef: %.6f%%" % (matthews_corrcoef * 100))
+
+    return {
+        "model_name": model_name,
+        "confusion_matrix": {
+            "tn": int(tn),
+            "fp": int(fp),
+            "fn": int(fn),
+            "tp": int(tp),
+        },
+        "f1_score": f1_score,
+        "accuracy_score": accuracy_score,
+        "hamming_loss": hamming_loss,
+        "matthews_corrcoef": matthews_corrcoef
+    }
 
 
-    print(sklearn.metrics.classification_report(test_labels, pred))
-
-    return model.__repr__()
-
-
-def get_machine_learning_result(model_name):
+def get_machine_learning_result(model_name: str):
     """Returns machine learning results by the given model."""
     data = load_data()
     train_features, train_labels, test_features, test_labels = shuffle_data(data, 0.75)
     model = get_model(model_name, train_features, train_labels)
-    return evaluation(model, test_features, test_labels)
+    return evaluation(model_name, model, test_features, test_labels)
 
 
 if __name__ == '__main__':
+    """Examines each model learners. Use this function with testing file paths.
+    """
     result = get_machine_learning_result("LogisticRegression")
     # result = get_machine_learning_result("SupportVectorClassifier")
     # result = get_machine_learning_result("KNeighborsClassifier")

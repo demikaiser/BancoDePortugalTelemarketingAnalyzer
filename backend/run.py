@@ -1,9 +1,9 @@
-from app import app
+from app import app_main
 from app.database import init_db
 
 
 if __name__ == '__main__':
     init_db()
-    app.run('0.0.0.0', 5000, True)
+    app_main.run('0.0.0.0', 5000, True)
 
 

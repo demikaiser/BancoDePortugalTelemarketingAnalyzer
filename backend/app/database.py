@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from os.path import dirname, join
-from app import app
+from app import app_main
 
 
 SQLITE_DB_FILE_PATH = "sqlite:///" + join(dirname(dirname(__file__)), "dataset/bank.sqlite")
@@ -27,7 +27,7 @@ def init_db():
     Base.metadata.create_all(bind=engine)
 
 
-@app.teardown_appcontext
+@app_main.teardown_appcontext
 def shutdown_session(exception=None):
     global db_session
     db_session.remove()

@@ -8,7 +8,9 @@ import RecordViewer from "views/RecordViwer.jsx";
 import ModelLogisticRegression from "views/ModelLogisticRegression";
 import ModelSupportVectorMachine from "views/ModelSupportVectorMachine";
 import ModelNearestNeighbors from "views/ModelNearestNeighbors";
-import ModelDecisionTrees from "views/ModelDecisionTrees";
+import ModelDecisionTree from "views/ModelDecisionTree";
+import ModelRandomForest from "views/ModelRandomForest";
+import ModelAdaBoost from "views/ModelAdaBoost";
 import ModelNeuralNetwork from "views/ModelNeuralNetwork";
 
 const dashboardRoutes = [
@@ -90,10 +92,24 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/modeldecisiontrees",
-    name: "Decision Trees",
+    path: "/modeldecisiontree",
+    name: "Decision Tree",
     icon: "pe-7s-network",
-    component: ModelDecisionTrees,
+    component: ModelDecisionTree,
+    layout: "/admin"
+  },
+  {
+    path: "/modelrandomforest",
+    name: "Random Forest",
+    icon: "pe-7s-keypad",
+    component: ModelRandomForest,
+    layout: "/admin"
+  },
+  {
+    path: "/modeladaboost",
+    name: "Ada Boost",
+    icon: "pe-7s-prev",
+    component: ModelAdaBoost,
     layout: "/admin"
   },
   {

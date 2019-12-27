@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
 import Card from "components/Card/Card";
 
-class ModelDecisionTrees extends Component {
+class ModelAdaBoost extends Component {
   render() {
     return (
       <div className="content">
@@ -24,4 +24,4 @@ class ModelDecisionTrees extends Component {
   }
 }
 
-export default ModelDecisionTrees;
+export default ModelAdaBoost;
