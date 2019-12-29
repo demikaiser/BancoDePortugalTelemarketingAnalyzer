@@ -41,37 +41,34 @@ class AdminNavbarLinks extends Component {
             noCaret
             id="basic-nav-dropdown"
           >
-            <MenuItem eventKey={2.1}>Notification 1</MenuItem>
-            <MenuItem eventKey={2.2}>Notification 2</MenuItem>
-            <MenuItem eventKey={2.3}>Notification 3</MenuItem>
-            <MenuItem eventKey={2.4}>Notification 4</MenuItem>
-            <MenuItem eventKey={2.5}>Another notifications</MenuItem>
+            <MenuItem eventKey={2.1} href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html?highlight=logistic%20regression#sklearn.linear_model.LogisticRegression">Logistic Regression</MenuItem>
+            <MenuItem eventKey={2.2} href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html?highlight=svm#sklearn.svm.SVC">Support Vector Machine</MenuItem>
+            <MenuItem eventKey={2.3} href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NearestNeighbors.html?highlight=nearest#sklearn.neighbors.NearestNeighbors">Nearest Neighbors</MenuItem>
+            <MenuItem eventKey={2.4} href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html?highlight=decision%20tree#sklearn.tree.DecisionTreeClassifier">Decision Tree</MenuItem>
+            <MenuItem eventKey={2.5} href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html?highlight=random%20forest#sklearn.ensemble.RandomForestClassifier">Random Forest</MenuItem>
+            <MenuItem eventKey={2.6} href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html?highlight=ada%20boost#sklearn.ensemble.AdaBoostClassifier">Ada Boost</MenuItem>
+            <MenuItem eventKey={2.7} href="https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html#sklearn.neural_network.MLPClassifier">Neural Network</MenuItem>
           </NavDropdown>
-          <NavItem eventKey={3} href="#">
+          <NavItem eventKey={3} href="https://www.google.com">
             <i className="fa fa-search" />
             <p className="hidden-lg hidden-md">Search</p>
           </NavItem>
         </Nav>
         <Nav pullRight>
-          <NavItem eventKey={1} href="#">
-            Account
-          </NavItem>
+          <NavItem eventKey={1} href="https://archive.ics.uci.edu/ml/datasets/bank+marketing">UCI Dataset Source</NavItem>
           <NavDropdown
             eventKey={2}
-            title="Dropdown"
+            title="References"
             id="basic-nav-dropdown-right"
           >
-            <MenuItem eventKey={2.1}>Action</MenuItem>
-            <MenuItem eventKey={2.2}>Another action</MenuItem>
-            <MenuItem eventKey={2.3}>Something</MenuItem>
-            <MenuItem eventKey={2.4}>Another action</MenuItem>
-            <MenuItem eventKey={2.5}>Something</MenuItem>
+            <MenuItem eventKey={2.1} href="https://reactjs.org">React</MenuItem>
+            <MenuItem eventKey={2.2} href="https://material-ui.com">Material UI</MenuItem>
+            <MenuItem eventKey={2.3} href="https://www.creative-tim.com">Creative Tim</MenuItem>
+            <MenuItem eventKey={2.4} href="http://flask.palletsprojects.com">Flask</MenuItem>
+            <MenuItem eventKey={2.5} href="https://pandas.pydata.org">Pandas</MenuItem>
             <MenuItem divider />
-            <MenuItem eventKey={2.5}>Separated link</MenuItem>
+            <MenuItem eventKey={2.5} href="https://scikit-learn.org">Scikit</MenuItem>
           </NavDropdown>
-          <NavItem eventKey={3} href="#">
-            Log out
-          </NavItem>
         </Nav>
       </div>
     );

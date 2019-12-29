@@ -32,17 +32,6 @@ class ModelLogisticRegression extends Component {
         <div className="content">
           <Grid fluid>
             <Row>
-              <Col md={12}>
-                <Card 
-                  content={
-                    <div>
-                      Sample Page
-                    </div>
-                  }
-                />
-              </Col>
-            </Row>
-            <Row>
               <Col lg={3} sm={6}>
                 <StatsCard
                   bigIcon={<i className="pe-7s-door-lock text-warning" />}
@@ -211,6 +200,7 @@ class ModelLogisticRegression extends Component {
       )
     }
   }
+
 }
 
 export default ModelLogisticRegression;
