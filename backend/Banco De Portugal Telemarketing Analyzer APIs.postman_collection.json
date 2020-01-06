@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "8c0c011e-1948-4a91-84ff-5fc7b5f68e7f",
+		"name": "Banco De Portugal Telemarketing Analyzer APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/models/logistic-regression",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/models/logistic-regression",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"models",
+						"logistic-regression"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/models/support-vector-machine",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/models/support-vector-machine",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"models",
+						"support-vector-machine"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/models/nearest-neighbors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/models/nearest-neighbors",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"models",
+						"nearest-neighbors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/models/decision-tree",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/models/decision-tree",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"models",
+						"decision-tree"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/models/random-forest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/models/random-forest",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"models",
+						"random-forest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/models/ada-boost",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/models/ada-boost",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"models",
+						"ada-boost"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/models/neural-network",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/models/neural-network",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"models",
+						"neural-network"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
